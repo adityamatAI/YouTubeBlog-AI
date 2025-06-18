@@ -12,9 +12,11 @@ import openai
 import re
 from .models import BlogPost
 import unicodedata
+from dotenv import load_dotenv
+load_dotenv()
 
-aai.settings.api_key = "YourAssemplyAIKey"
-openai.api_key = "YourOpenAIKey"
+aai.settings.api_key = os.getenv("aai_api_key")
+openai.api_key = os.getenv("openai_api_key")
 
 @login_required
 def index(request):
@@ -110,7 +112,7 @@ def get_transcription(link):
 def generate_blog_from_transcription(transcription):
     """Generate blog article using OpenAI GPT-4."""
     try:
-        client = openai.OpenAI(api_key="YourOpenAiKey")
+        client = openai.OpenAI(api_key=os.getenv("openai_api_key"))
 
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
